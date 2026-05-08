@@ -23,7 +23,7 @@ export default function AboutCard({ isHovered = false }: AboutCardProps) {
         开发者 / 创作者
         </p>
         <p className="text-sm text-gray-600 leading-relaxed">
-          Trae全自动开发测试中...<br />
+          全自动开发测试中...<br />
           在这里记录我的学习和生活
         </p>
       </div>

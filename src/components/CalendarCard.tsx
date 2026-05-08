@@ -17,8 +17,6 @@ export default function CalendarCard({ isHovered = false }: CalendarCardProps) {
 
   return (
     <Card width="w-64" height="h-56" isHovered={isHovered}>
-      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-bl-full opacity-30" />
-      
       <div className="relative z-10 flex flex-col items-center">
         <div className="text-4xl font-bold text-gray-800 mb-1">{today.getDate()}</div>
         <div className="text-sm text-gray-500 mb-4">{month} {year}</div>
@@ -38,7 +36,7 @@ export default function CalendarCard({ isHovered = false }: CalendarCardProps) {
           ))}
         </div>
         
-        <CardDescription>日历功能</CardDescription>
+        <CardDescription>公历</CardDescription>
       </div>
     </Card>
   );

@@ -10,6 +10,9 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: '首页', href: '/' },
   { name: '博客', href: '/blog' },
+  { name: '作品集', href: '/portfolio' },
+  { name: '友链', href: '/friends' },
+  { name: '关于', href: '/about' },
 ];
 
 export default function Navbar() {

@@ -9,8 +9,8 @@ const supabase = createClient(
 // 获取IP地理信息
 async function getGeoInfo(ip: string) {
   try {
-    // 使用免费的IP地理定位API
-    const response = await fetch(`http://ip-api.com/json/${ip}`);
+    // 使用免费的IP地理定位API （?lang=zh-CN 语言参数设置为中文）
+    const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
     const data = await response.json();
     
     if (data.status === 'success') {
@@ -49,11 +49,24 @@ export async function POST(request: Request) {
       || realIp
       || 'unknown';
 
-    // 获取地理信息（跳过本地IP）
-    let geoInfo = { country: '未知', region: '未知' };
-    if (ip !== '::1' && ip !== '127.0.0.1' && ip !== 'unknown') {
-      geoInfo = await getGeoInfo(ip);
+    //进行本地开发测试时，使用测试IP
+    let queryIp = ip;
+    if (
+      process.env.NODE_ENV === 'development' ||
+      ip === '::1' ||
+      ip === '127.0.0.1' ||
+      ip === 'unknown'  
+    ) {
+      // queryIp = '114.114.114.114'; // 可替换测试国内任意IP
+      queryIp = '118.140.0.1';//香港测试IP
     }
+    let geoInfo = await getGeoInfo(queryIp);
+
+    // // 获取地理信息（跳过本地IP）
+    // let geoInfo = { country: '未知', region: '未知' };
+    // if (ip !== '::1' && ip !== '127.0.0.1' && ip !== 'unknown') {
+    //   geoInfo = await getGeoInfo(ip);
+    // }
 
     // 插入评论数据（包含IP和地理信息）
     const { error } = await supabase

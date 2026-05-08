@@ -177,9 +177,18 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     if (!comment.region || comment.region === '未知') {
       return '来自 未知';
     }
+    if (comment.country === 'Taiwan' || comment.country === '台湾') {
+      return '来自 台湾';
+    }
+   if (comment.country === 'Macau' || comment.country === '澳门') {
+      return '来自 澳门';
+    }  
+   if (comment.country === 'Hong Kong' || comment.country === '香港') {
+      return '来自 香港';
+    }    
     // 显示地区
     return `来自 ${comment.region}`;
-  };
+    };
 
   return (
     <section className="mt-12 pt-8 border-t border-gray-200">
