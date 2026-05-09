@@ -29,17 +29,8 @@ async function getGeoInfo(ip: string) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
-    // // 获取客户端IP地址（处理代理情况）
-    // const forwardedFor = request.headers.get('x-forwarded-for');
-    // const realIp = request.headers.get('x-real-ip');
-    
-    // // x-forwarded-for 可能包含多个IP，用逗号分隔，取第一个
-    // const ip = forwardedFor 
-    //   ? forwardedFor.split(',')[0].trim() 
-    //   : realIp || 'unknown';
 
-    //cf-connecting-ip获取Cloudflare 代理下访问者的真实公网 IP，放第一顺位
+    // cf-connecting-ip获取Cloudflare 代理下访问者的真实公网 IP，放第一顺位
     const cfIp = request.headers.get('cf-connecting-ip');
     const forwardedFor = request.headers.get('x-forwarded-for');
     const realIp = request.headers.get('x-real-ip');
@@ -57,16 +48,9 @@ export async function POST(request: Request) {
       ip === '127.0.0.1' ||
       ip === 'unknown'  
     ) {
-      // queryIp = '114.114.114.114'; // 可替换测试国内任意IP
-      queryIp = '118.140.0.1';//香港测试IP
+      queryIp = '118.140.0.1'; // 香港测试IP
     }
     let geoInfo = await getGeoInfo(queryIp);
-
-    // // 获取地理信息（跳过本地IP）
-    // let geoInfo = { country: '未知', region: '未知' };
-    // if (ip !== '::1' && ip !== '127.0.0.1' && ip !== 'unknown') {
-    //   geoInfo = await getGeoInfo(ip);
-    // }
 
     // 插入评论数据（包含IP和地理信息）
     const { error } = await supabase

@@ -11,56 +11,7 @@ interface Friend {
   tags: string[];
 }
 
-const friends: Friend[] = [
-  {
-    id: 1,
-    name: '张三的博客',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhang',
-    url: 'https://example.com',
-    description: '前端开发爱好者，分享技术心得',
-    tags: ['前端', 'React', 'Vue'],
-  },
-  {
-    id: 2,
-    name: '李四的技术栈',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=li',
-    url: 'https://example.com',
-    description: '全栈开发者，热爱开源',
-    tags: ['全栈', 'Node.js', 'Go'],
-  },
-  {
-    id: 3,
-    name: '王五的小站',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=wang',
-    url: 'https://example.com',
-    description: '生活记录者，分享日常点滴',
-    tags: ['生活', '摄影', '旅行'],
-  },
-  {
-    id: 4,
-    name: '赵六的实验室',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=zhao',
-    url: 'https://example.com',
-    description: 'AI 研究员，探索前沿技术',
-    tags: ['AI', '机器学习', 'Python'],
-  },
-  {
-    id: 5,
-    name: '钱七的笔记',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=qian',
-    url: 'https://example.com',
-    description: '学生博主，记录学习历程',
-    tags: ['学习', '笔记', '大学生'],
-  },
-  {
-    id: 6,
-    name: '孙八的空间',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=sun',
-    url: 'https://example.com',
-    description: '设计师，分享创意灵感',
-    tags: ['设计', 'UI', '创意'],
-  },
-];
+const friends: Friend[] = [];
 
 export default function FriendsPage() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -73,10 +24,10 @@ export default function FriendsPage() {
     : friends;
 
   return (
-    <main className="min-h-screen p-8 max-w-5xl mx-auto">
+    <main className="min-h-screen p-4 md:p-8 max-w-5xl mx-auto">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-4">友情链接</h1>
-        <p className="text-gray-600">分享一些有趣或有用的网站和好友页面</p>
+        <p className="text-gray-600 dark:text-gray-400">分享一些有趣或有用的网站和好友页面</p>
       </header>
 
       <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -84,8 +35,8 @@ export default function FriendsPage() {
           onClick={() => setFilterTag(null)}
           className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
             filterTag === null
-              ? 'bg-blue-500 text-white shadow-md'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              ? 'bg-sky-500 text-white shadow-md'
+              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
           }`}
         >
           全部
@@ -96,8 +47,8 @@ export default function FriendsPage() {
             onClick={() => setFilterTag(tag)}
             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
               filterTag === tag
-                ? 'bg-blue-500 text-white shadow-md'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                ? 'bg-sky-500 text-white shadow-md'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
             }`}
           >
             {tag}
@@ -106,30 +57,31 @@ export default function FriendsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredFriends.map(friend => (
+        {filteredFriends.map((friend, i) => (
           <a
             key={friend.id}
             href={friend.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block group"
+            className="block group stagger-item"
+            style={{ animationDelay: `${i * 0.06}s` }}
             onMouseEnter={() => setHoveredId(friend.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
             <div className={`
-              bg-white rounded-xl p-6 shadow-md
-              border border-gray-100
-              transition-all duration-300
-              ${hoveredId === friend.id 
-                ? 'shadow-xl -translate-y-1 border-blue-200' 
-                : 'hover:shadow-lg'}
+              bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md
+              border border-gray-100 dark:border-gray-700
+              card-lift
+              ${hoveredId === friend.id
+                ? 'shadow-xl -translate-y-1 border-sky-200'
+                : ''}
             `}>
               <div className="flex items-center gap-4 mb-4">
                 <div className={`
                   w-14 h-14 rounded-full overflow-hidden
                   border-2 border-gray-200
                   transition-all duration-300
-                  ${hoveredId === friend.id ? 'border-blue-400 scale-110' : ''}
+                  ${hoveredId === friend.id ? 'border-sky-400 scale-110' : ''}
                 `}>
                   <img
                     src={friend.avatar}
@@ -139,9 +91,9 @@ export default function FriendsPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className={`
-                    font-semibold text-gray-800
+                    font-semibold text-gray-800 dark:text-gray-200
                     transition-colors duration-300
-                    ${hoveredId === friend.id ? 'text-blue-600' : ''}
+                    ${hoveredId === friend.id ? 'text-sky-600' : ''}
                   `}>
                     {friend.name}
                   </h3>
@@ -149,7 +101,7 @@ export default function FriendsPage() {
                     {friend.tags.slice(0, 2).map(tag => (
                       <span
                         key={tag}
-                        className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded"
+                        className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded"
                       >
                         {tag}
                       </span>
@@ -161,7 +113,7 @@ export default function FriendsPage() {
                     w-5 h-5 text-gray-400
                     transition-all duration-300
                     ${hoveredId === friend.id 
-                      ? 'text-blue-500 translate-x-1' 
+                      ? 'text-sky-500 translate-x-1' 
                       : 'group-hover:translate-x-0.5'}
                   `}
                   fill="none"
@@ -176,7 +128,7 @@ export default function FriendsPage() {
                   />
                 </svg>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed">
+              <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                 {friend.description}
               </p>
             </div>
@@ -185,7 +137,7 @@ export default function FriendsPage() {
       </div>
 
       <div className="mt-12 text-center">
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 dark:text-gray-500 text-sm">
           想要交换友链？欢迎通过评论或邮件联系我！
         </p>
       </div>

@@ -1,27 +1,182 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'highlight.js/styles/github-dark.css';
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --color-bg: 248 250 252;
+    --color-surface: 255 255 255;
+    --color-border: 226 232 240;
+    --color-text: 15 23 42;
+    --color-text-secondary: 100 116 139;
+    --color-primary: 56 189 248;
+    --color-primary-hover: 14 165 233;
+    --color-accent: 251 191 36;
+    --color-accent-2: 110 231 183;
+  }
+
+  .dark {
+    --color-bg: 15 23 42;
+    --color-surface: 30 41 59;
+    --color-border: 51 65 85;
+    --color-text: 241 245 249;
+    --color-text-secondary: 148 163 184;
+    --color-primary: 56 189 248;
+    --color-primary-hover: 125 211 252;
+    --color-accent: 251 191 36;
+    --color-accent-2: 110 231 183;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors;
+  }
+
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+
+  /* ── smooth underline for links ── */
+  a.underline-anim {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1.5px;
+    transition: background-size 0.3s ease;
+  }
+
+  a.underline-anim:hover {
+    background-size: 100% 1.5px;
+  }
+
+  /* ── global button press feedback ── */
+  button:not([disabled]),
+  a[class*='rounded'] {
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  button:active:not([disabled]) {
+    transform: scale(0.96);
+  }
+
+  /* ── focus ring ── */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid rgb(56 189 248 / 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer components {
+  /* ── hover-lift card effect ── */
+  .card-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
+  }
+
+  /* ── staggered fade-in ── */
+  .stagger-item {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fade-up 0.5s ease-out forwards;
+  }
+
+  @keyframes fade-up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ════════════════════════════════════════════
+   Bubble card — soap-bubble gloss
+   ════════════════════════════════════════════ */
+.bubble-card {
+  position: relative;
+}
+
+.bubble-card::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0) 55%
+  );
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ════════════════════════════════════════════
+   Wrapper — physics writes transform directly
+   ════════════════════════════════════════════ */
+.bubble-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+/* ════════════════════════════════════════════
+   Inner — hidden by default; bloom animation
+   triggered only after positions are ready
+   ════════════════════════════════════════════ */
+.bubble-inner {
+  opacity: 0;
+  transform: scale(0.15);
+  transition: filter 0.35s ease;
+}
+
+.bubble-inner.bloom-start {
+  animation: bubble-bloom 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bubble-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.15);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ════════════════════════════════════════════
+   Hover states (visual only — scale is physics)
+   ════════════════════════════════════════════ */
+.bubble-active {
+  z-index: 30 !important;
+}
+
+.bubble-active .bubble-card {
+  box-shadow:
+    0 0 0 3px rgba(56, 189, 248, 0.25),
+    0 12px 36px rgba(0, 0, 0, 0.1);
+}
+
+.bubble-squeeze {
+  z-index: 5;
+}
+
+.bubble-squeeze .bubble-inner {
+  filter: brightness(0.92) saturate(0.85);
+}
+
+.dark .bubble-squeeze .bubble-inner {
+  filter: none;
+  opacity: 0.55;
 }

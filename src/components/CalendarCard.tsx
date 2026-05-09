@@ -1,7 +1,7 @@
 'use client';
 
 import Card from './Card';
-import { CardTitle, CardDescription } from './Card';
+import { CardDescription } from './Card';
 
 interface CalendarCardProps {
   isHovered?: boolean;
@@ -16,26 +16,26 @@ export default function CalendarCard({ isHovered = false }: CalendarCardProps) {
   const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
   return (
-    <Card width="w-64" height="h-56" isHovered={isHovered}>
+    <Card className="bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40" isHovered={isHovered}>
       <div className="relative z-10 flex flex-col items-center">
-        <div className="text-4xl font-bold text-gray-800 mb-1">{today.getDate()}</div>
-        <div className="text-sm text-gray-500 mb-4">{month} {year}</div>
-        
-        <div className="grid grid-cols-7 gap-1 text-xs mb-4">
+        <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-1">{today.getDate()}</div>
+        <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">{month} {year}</div>
+
+        <div className="grid grid-cols-7 gap-1 text-[10px] mb-3">
           {weekDays.map((day, index) => (
-            <div 
-              key={day} 
-              className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 ${
-                index === dayOfWeek 
-                  ? 'bg-blue-500 text-white font-semibold scale-110' 
-                  : 'text-gray-400'
+            <div
+              key={day}
+              className={`w-5 h-5 flex items-center justify-center rounded-full transition-all duration-200 ${
+                index === dayOfWeek
+                  ? 'bg-sky-500 text-white font-semibold scale-110'
+                  : 'text-gray-400 dark:text-gray-500'
               }`}
             >
               {day}
             </div>
           ))}
         </div>
-        
+
         <CardDescription>公历</CardDescription>
       </div>
     </Card>

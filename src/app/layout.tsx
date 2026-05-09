@@ -1,10 +1,21 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "我的网站",
-  description: "个人网站",
+  title: {
+    default: 'Hyakuyaの小站',
+    template: '%s - Hyakuyaの小站',
+  },
+  description: '开发者 Hyakuya 的个人网站 — 记录学习、生活与技术分享',
+  authors: [{ name: 'Hyakuya' }],
+  openGraph: {
+    type: 'website',
+    locale: 'zh_CN',
+    siteName: 'Hyakuyaの小站',
+  },
 };
 
 export default function RootLayout({
@@ -13,10 +24,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
-      <body className="antialiased bg-gray-50">
-        <Navbar />
-        {children}
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.toggle('dark',t==='dark')}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body className="antialiased bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col transition-colors">
+        <ThemeProvider>
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

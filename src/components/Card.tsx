@@ -4,32 +4,28 @@ import { ReactNode } from 'react';
 
 interface CardProps {
   children: ReactNode;
-  width?: string;
-  height?: string;
   className?: string;
   isHovered?: boolean;
 }
 
-export default function Card({ 
-  children, 
-  width = 'w-72', 
-  height = 'h-48', 
+export default function Card({
+  children,
   className = '',
   isHovered = false
 }: CardProps) {
   return (
     <div
       className={`
-        ${width} ${height}
-        bg-white rounded-xl shadow-lg
-        border border-gray-100
-        transition-all duration-300 ease-out
+        w-full h-full
+        bubble-card rounded-full
+        bg-white dark:bg-gray-800 shadow-lg border border-white/70 dark:border-gray-700/50
+        transition-all duration-400 ease-out
         cursor-pointer
-        flex flex-col items-center justify-center p-6
+        flex flex-col items-center justify-center p-5
         overflow-hidden
-        ${isHovered 
-          ? 'scale-110 shadow-2xl z-20 ring-2 ring-blue-500' 
-          : 'hover:shadow-xl hover:scale-105'
+        ${isHovered
+          ? 'ring-2 ring-sky-400/40 shadow-2xl'
+          : ''
         }
         ${className}
       `}
@@ -40,9 +36,9 @@ export default function Card({
 }
 
 export function CardTitle({ children }: { children: ReactNode }) {
-  return <h3 className="text-lg font-semibold text-gray-800 mb-2">{children}</h3>;
+  return <h3 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-1">{children}</h3>;
 }
 
 export function CardDescription({ children }: { children: ReactNode }) {
-  return <p className="text-sm text-gray-500 text-center">{children}</p>;
+  return <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{children}</p>;
 }
