@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Card from './Card';
 import { CardDescription } from './Card';
 
@@ -8,12 +9,28 @@ interface CalendarCardProps {
 }
 
 export default function CalendarCard({ isHovered = false }: CalendarCardProps) {
-  const today = new Date();
+  const [today, setToday] = useState<Date | null>(null);
+
+  useEffect(() => {
+    setToday(new Date());
+  }, []);
+
+  const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
+
+  if (!today) {
+    return (
+      <Card className="bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40" isHovered={isHovered}>
+        <div className="relative z-10 flex flex-col items-center h-full justify-center">
+          <div className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-1">--</div>
+          <CardDescription>公历</CardDescription>
+        </div>
+      </Card>
+    );
+  }
+
   const month = today.toLocaleDateString('zh-CN', { month: 'long' });
   const year = today.getFullYear();
-
   const dayOfWeek = today.getDay();
-  const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
   return (
     <Card className="bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40" isHovered={isHovered}>
