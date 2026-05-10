@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from '@/components/ThemeProvider';
+import { useTheme } from './ThemeProvider';
 
 interface NavItem {
   name: string;
@@ -13,7 +13,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: '首页', href: '/' },
   { name: '博客', href: '/blog' },
-  { name: '作品集', href: '/portfolio' },
+  { name: '留言', href: '/messages' },
+  { name: '作品', href: '/portfolio' },
   { name: '友链', href: '/friends' },
   { name: '关于', href: '/about' },
 ];

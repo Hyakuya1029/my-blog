@@ -1,5 +1,3 @@
-'use client';
-
 import Card from './Card';
 
 interface AboutCardProps {
@@ -19,7 +17,7 @@ export default function AboutCard({ isHovered = false }: AboutCardProps) {
           开发者 / 创作者
         </p>
         <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
-          记录我的学习和生活
+          不会写代码的计算机专业学生
         </p>
       </div>
     </Card>

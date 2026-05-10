@@ -1,5 +1,3 @@
-'use client';
-
 import { useRef, useEffect, useCallback, useMemo, useState } from 'react';
 
 export interface BubbleDef {

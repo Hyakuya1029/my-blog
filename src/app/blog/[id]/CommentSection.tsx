@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
+import { getLocationText } from '@/lib/getLocationText';
 
 interface Comment {
   id: string;
@@ -18,11 +19,6 @@ interface Comment {
 interface CommentSectionProps {
   postId: string;
 }
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export default function CommentSection({ postId }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -64,7 +60,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     const submitEmail = isReply ? replyEmail : email;
     const submitContent = isReply ? replyContent : content;
 
-    if (!submitName.trim() || !submitEmail.trim() || !submitContent.trim()) {
+    if (!submitName.trim() || !submitContent.trim()) {
       alert('请填写完整信息');
       return;
     }
@@ -72,7 +68,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     setIsSubmitting(true);
     
     try {
-      const commentData: any = {
+      const commentData: Record<string, unknown> = {
         post_id: postId,
         name: submitName.trim(),
         email: submitEmail.trim(),
@@ -166,23 +162,6 @@ export default function CommentSection({ postId }: CommentSectionProps) {
     return comments.filter(c => !c.parent_id);
   };
 
-  const getLocationText = (comment: Comment) => {
-    // 如果没有地区，直接显示未知地区
-    if (!comment.region || comment.region === '未知') {
-      return '来自 未知';
-    }
-    if (comment.country === 'Taiwan' || comment.country === '台湾') {
-      return '来自 台湾';
-    }
-   if (comment.country === 'Macau' || comment.country === '澳门') {
-      return '来自 澳门';
-    }  
-   if (comment.country === 'Hong Kong' || comment.country === '香港') {
-      return '来自 香港';
-    }    
-    // 显示地区
-    return `来自 ${comment.region}`;
-    };
 
   return (
     <section className="mt-12 pt-8 border-t border-gray-200">
@@ -234,15 +213,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
                 value={replyEmail}
                 onChange={(e) => setReplyEmail(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition"
-                placeholder="你的邮箱 *"
-                required
+                placeholder="你的邮箱（选填）"
               />
             </div>
             <textarea
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               rows={3}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition resize-none"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition resize-none"
               placeholder={`回复 @${replyTo.name}...`}
               required
             />
@@ -275,14 +253,14 @@ export default function CommentSection({ postId }: CommentSectionProps) {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                邮箱 *
+                邮箱
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition"
-                placeholder="请输入邮箱"
+                placeholder="(选填)如果希望我联系您，请填入你的邮箱"
               />
             </div>
           </div>
@@ -294,7 +272,7 @@ export default function CommentSection({ postId }: CommentSectionProps) {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition resize-none"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition resize-none"
               placeholder="写下你的评论..."
             />
           </div>
@@ -330,9 +308,9 @@ export default function CommentSection({ postId }: CommentSectionProps) {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="font-semibold text-gray-800 dark:text-gray-200">{comment.name}</h4>
-                      {getLocationText(comment) && (
+                      {getLocationText(comment.country, comment.region) && (
                         <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                           {getLocationText(comment)}
+                           来自 {getLocationText(comment.country, comment.region)}
                         </span>
                       )}
                       <span className="text-xs text-gray-400">{formatDate(comment.created_at)}</span>
@@ -360,9 +338,9 @@ export default function CommentSection({ postId }: CommentSectionProps) {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 text-sm">{reply.name}</h4>
-                            {getLocationText(reply) && (
+                            {getLocationText(reply.country, reply.region) && (
                               <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
-                                 {getLocationText(reply)}
+                                来自 {getLocationText(reply.country, reply.region)}
                               </span>
                             )}
                             <span className="text-xs text-gray-400">{formatDate(reply.created_at)}</span>

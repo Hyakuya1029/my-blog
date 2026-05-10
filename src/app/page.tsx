@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import AboutCard from '@/components/AboutCard';
-import CalendarCard from '@/components/CalendarCard';
+import AboutCard from '@/components/home/AboutCard';
+import CalendarCard from '@/components/home/CalendarCard';
 import Link from 'next/link';
-import { PlaceholderCard1, PlaceholderCard2, PlaceholderCard3, PlaceholderCard4 } from '@/components/PlaceholderCards';
+import { PlaceholderCard1, PlaceholderCard2, PlaceholderCard3, PlaceholderCard4 } from '@/components/home/PlaceholderCards';
 import { useBubblePhysics } from '@/hooks/useBubblePhysics';
 
 type CardItem = {

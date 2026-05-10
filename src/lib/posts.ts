@@ -1,7 +1,17 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
-import { Post } from './types';
+
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  excerpt: string;
+  publishedAt: string;
+  updatedAt: string;
+  tags: string[];
+  published: boolean;
+}
 
 const postsDirectory = join(process.cwd(), 'posts');
 

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
+import { getLocationText } from '@/lib/getLocationText';
 
 interface Message {
   id: number;
@@ -11,11 +12,6 @@ interface Message {
   region: string;
   created_at: string;
 }
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 const WALL_COLORS = [
   'from-amber-50 to-yellow-100 dark:from-amber-900/30 dark:to-yellow-900/20',
@@ -49,6 +45,7 @@ const ROTATIONS = [-2, 1, -1, 2, -1.5, 0.5];
 export default function MessagesPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -82,13 +79,14 @@ export default function MessagesPage() {
       const response = await fetch('/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name.trim(), content: content.trim() }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), content: content.trim() }),
       });
 
       const result = await response.json();
       if (!result.success) throw new Error(result.error || '提交失败');
 
       setName('');
+      setEmail('');
       setContent('');
       await fetchMessages();
     } catch (error) {
@@ -107,19 +105,11 @@ export default function MessagesPage() {
     });
   };
 
-  const getLocationText = (msg: Message) => {
-    if (!msg.region || msg.region === '未知') return null;
-    if (msg.country === 'Taiwan' || msg.country === '台湾') return '台湾';
-    if (msg.country === 'Macau' || msg.country === '澳门') return '澳门';
-    if (msg.country === 'Hong Kong' || msg.country === '香港') return '香港';
-    return msg.region;
-  };
-
   return (
     <main className="min-h-screen p-4 md:p-8 max-w-4xl mx-auto">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-100">
-          📌 留言墙
+          留言墙
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
           每一条留言都是一张便签，贴在墙上成为独特的风景
@@ -139,6 +129,15 @@ export default function MessagesPage() {
               onChange={(e) => setName(e.target.value)}
               placeholder="你的名字"
               maxLength={20}
+              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
+            />
+          </div>
+          <div>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="(选填)如果希望我联系您，请填入你的邮箱"
               className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition-all text-sm"
             />
           </div>
@@ -180,9 +179,7 @@ export default function MessagesPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {messages.map((msg, i) => {
-            const borderColor = BORDER_COLORS[i % BORDER_COLORS.length];
-            const pinColor = PIN_COLORS[i % PIN_COLORS.length];
-            const location = getLocationText(msg);
+            const location = getLocationText(msg.country, msg.region);
 
             return (
               <div
@@ -194,11 +191,11 @@ export default function MessagesPage() {
                 }}
               >
                 <div
-                  className={`relative bg-gradient-to-br ${WALL_COLORS[i % WALL_COLORS.length]} rounded-xl p-5 shadow-md border ${borderColor} transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:rotate-0`}
+                  className={`relative bg-gradient-to-br ${WALL_COLORS[i % WALL_COLORS.length]} rounded-xl p-5 shadow-md border ${BORDER_COLORS[i % BORDER_COLORS.length]} transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:rotate-0`}
                 >
                   {/* Pin */}
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-                    <div className={`w-5 h-5 rounded-full ${pinColor} shadow-md ring-2 ring-white dark:ring-gray-700`}>
+                    <div className={`w-5 h-5 rounded-full ${PIN_COLORS[i % PIN_COLORS.length]} shadow-md ring-2 ring-white dark:ring-gray-700`}>
                       <div className="w-2 h-2 rounded-full bg-white/60 absolute top-1 left-1" />
                     </div>
                   </div>
@@ -210,7 +207,7 @@ export default function MessagesPage() {
                     <span className="font-medium text-gray-500 dark:text-gray-400">
                       — {msg.name}
                       {location && (
-                        <span className="ml-1 text-green-600 text-[10px]">📍{location}</span>
+                        <span className="ml-1 text-green-600 text-[10px]">来自 {location}</span>
                       )}
                     </span>
                     <span>{formatDate(msg.created_at)}</span>

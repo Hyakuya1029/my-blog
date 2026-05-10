@@ -17,7 +17,6 @@ export default function BlogPage() {
         <h1 className="text-4xl font-bold mb-4">博客</h1>
         <p className="text-gray-600 dark:text-gray-400">记录生活，分享思考</p>
       </header>
-
       <BlogList posts={posts} allTags={allTags} />
     </main>
   );

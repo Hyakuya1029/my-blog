@@ -4,30 +4,6 @@
 @import 'highlight.js/styles/github-dark.css';
 
 @layer base {
-  :root {
-    --color-bg: 248 250 252;
-    --color-surface: 255 255 255;
-    --color-border: 226 232 240;
-    --color-text: 15 23 42;
-    --color-text-secondary: 100 116 139;
-    --color-primary: 56 189 248;
-    --color-primary-hover: 14 165 233;
-    --color-accent: 251 191 36;
-    --color-accent-2: 110 231 183;
-  }
-
-  .dark {
-    --color-bg: 15 23 42;
-    --color-surface: 30 41 59;
-    --color-border: 51 65 85;
-    --color-text: 241 245 249;
-    --color-text-secondary: 148 163 184;
-    --color-primary: 56 189 248;
-    --color-primary-hover: 125 211 252;
-    --color-accent: 251 191 36;
-    --color-accent-2: 110 231 183;
-  }
-
   body {
     @apply bg-gray-50 text-gray-900 transition-colors;
   }
@@ -36,7 +12,6 @@
     @apply bg-gray-900 text-gray-100;
   }
 
-  /* ── global button press feedback ── */
   button:not([disabled]),
   a[class*='rounded'] {
     transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
@@ -46,7 +21,6 @@
     transform: scale(0.96);
   }
 
-  /* ── focus ring ── */
   a:focus-visible,
   button:focus-visible,
   input:focus-visible,

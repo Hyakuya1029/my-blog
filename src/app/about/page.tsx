@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import FilterPill from '@/components/ui/FilterPill';
 
 interface Skill {
   name: string;
@@ -199,28 +200,18 @@ export default function AboutPage() {
         </h2>
         
         <div className="flex flex-wrap gap-2 mb-6">
-          <button
+          <FilterPill
+            label="全部"
+            isActive={activeCategory === '全部'}
             onClick={() => setActiveCategory('全部')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeCategory === '全部'
-                ? 'bg-sky-500 text-white shadow-md'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-            }`}
-          >
-            全部
-          </button>
+          />
           {categories.map(cat => (
-            <button
+            <FilterPill
               key={cat}
+              label={cat}
+              isActive={activeCategory === cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                activeCategory === cat
-                  ? 'bg-sky-500 text-white shadow-md'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              {cat}
-            </button>
+            />
           ))}
         </div>
 
@@ -229,7 +220,7 @@ export default function AboutPage() {
             <div
               key={skill.name}
               className="group stagger-item"
-              style={{ animationDelay: `${i * 0.06}s` }}
+              style={{ animationDelay: `${i * 0.08}s` }}
               onMouseEnter={() => setHoveredSkill(skill.name)}
               onMouseLeave={() => setHoveredSkill(null)}
             >

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import type { Post } from '@/lib/types';
+import type { Post } from '@/lib/posts';
+import FilterPill from '@/components/ui/FilterPill';
 
 interface BlogListProps {
   posts: Post[];
@@ -19,28 +20,18 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
   return (
     <section>
       <div className="flex flex-wrap items-center gap-2 mb-8">
-        <button
+        <FilterPill
+          label="全部"
+          isActive={activeTag === null}
           onClick={() => setActiveTag(null)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-            activeTag === null
-              ? 'bg-sky-500 text-white shadow-md'
-              : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-          }`}
-        >
-          全部
-        </button>
+        />
         {allTags.map((tag) => (
-          <button
+          <FilterPill
             key={tag}
+            label={tag}
+            isActive={activeTag === tag}
             onClick={() => setActiveTag(tag)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              activeTag === tag
-                ? 'bg-sky-500 text-white shadow-md'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-            }`}
-          >
-            {tag}
-          </button>
+          />
         ))}
       </div>
 
@@ -58,7 +49,7 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
               className="stagger-item border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 rounded-lg p-6 card-lift cursor-pointer"
               style={{ animationDelay: `${i * 0.08}s` }}
             >
-              <Link href={`/posts/${post.id}`}>
+              <Link href={`/blog/${post.id}`}>
                 <h3 className="text-xl font-medium mb-2 hover:text-sky-600 dark:text-gray-100">{post.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-3">{post.excerpt}</p>
                 <div className="flex items-center justify-between">
