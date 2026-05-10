@@ -39,15 +39,15 @@ export function PlaceholderCard2({ isHovered = false }: PlaceholderCardProps) {
 
 export function PlaceholderCard3({ isHovered = false }: PlaceholderCardProps) {
   return (
-    <Card className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30" isHovered={isHovered}>
-      <div className="flex flex-col items-center text-emerald-400">
-        <div className="w-10 h-10 rounded-full bg-emerald-200 flex items-center justify-center mb-3">
+    <Card className="bg-gradient-to-br from-amber-50 to-yellow-100 dark:from-amber-900/30 dark:to-yellow-900/20" isHovered={isHovered}>
+      <div className="flex flex-col items-center text-amber-500">
+        <div className="w-10 h-10 rounded-full bg-amber-200 flex items-center justify-center mb-3">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.54.6a2 2 0 01-1.6.8h-2.4a2 2 0 01-1.6-.8l-.54-.6z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
           </svg>
         </div>
-        <CardTitle>灵感墙</CardTitle>
-        <CardDescription>收集创意想法</CardDescription>
+        <CardTitle>留言墙</CardTitle>
+        <CardDescription>留下你想说的话</CardDescription>
       </div>
     </Card>
   );

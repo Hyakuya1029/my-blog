@@ -14,9 +14,33 @@ interface TimelineItem {
   description: string;
 }
 
+interface WebsiteTech {
+  name: string;
+  description: string;
+}
+
+const websiteTechs: WebsiteTech[] = [
+  {
+    name: 'Next.js 14',
+    description: '全栈 React 框架，支持服务端渲染与静态生成',
+  },
+  {
+    name: 'TypeScript',
+    description: '静态类型检查，提升开发体验与代码质量',
+  },
+  {
+    name: 'Tailwind CSS',
+    description: '原子化 CSS 框架，快速构建响应式界面与深色模式',
+  },
+  {
+    name: 'Supabase',
+    description: '开源 BaaS，提供数据库、认证与实时 API',
+  },
+];
+
 const skills: Skill[] = [
   { name: 'Java', level: 1, category: '后端' },
-  { name: 'C++', level: 1, category: '前端' },
+  { name: 'C++', level: 1, category: '后端' },
   { name: 'Web', level: 1, category: '前端' },
   { name: 'HTML', level: 1, category: '前端' },
   { name: 'CSS', level: 1, category: '前端' },
@@ -41,24 +65,79 @@ export default function AboutPage() {
     ? skills
     : skills.filter(s => s.category === activeCategory);
 
+  const techIconClass = (name: string) => {
+    switch (name) {
+      case 'Next.js 14':
+        return 'fa-solid fa-n';
+      case 'TypeScript':
+        return 'fa-brands fa-typescript';
+      case 'Tailwind CSS':
+        return 'fa-brands fa-tailwind-css';
+      case 'Supabase':
+        return 'fa-solid fa-database';
+      default:
+        return 'fa-solid fa-code';
+    }
+  };
+
+  const techGradient = (name: string) => {
+    switch (name) {
+      case 'Next.js 14':
+        return 'from-gray-700 to-black dark:from-gray-600 dark:to-gray-900';
+      case 'TypeScript':
+        return 'from-blue-500 to-blue-700';
+      case 'Tailwind CSS':
+        return 'from-cyan-400 to-cyan-600';
+      case 'Supabase':
+        return 'from-emerald-400 to-emerald-600';
+      default:
+        return 'from-sky-400 to-sky-600';
+    }
+  };
+
   return (
     <main className="min-h-screen p-4 md:p-8 max-w-4xl mx-auto">
       <header className="text-center mb-12">
-        <div className="inline-block mb-6">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-sky-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold shadow-lg">
-            H
-          </div>
-        </div>
         <h1 className="text-4xl font-bold mb-4">关于</h1>
-        <p className="text-gray-600 dark:text-gray-400 text-lg">
-          本网站通过agent代理进行全自动开发
-        </p>
       </header>
 
       <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-8">
         <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2 dark:text-gray-100">
           <svg className="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          关于网站
+        </h2>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          {websiteTechs.map((tech) => (
+            <div
+              key={tech.name}
+              className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 text-center hover:bg-sky-50 dark:hover:bg-sky-900/20 transition-colors group"
+            >
+              <div className={`w-10 h-10 mx-auto mb-2 rounded-lg bg-gradient-to-br ${techGradient(tech.name)} flex items-center justify-center text-white shadow group-hover:shadow-md transition-shadow`}>
+                <i className={techIconClass(tech.name)} suppressHydrationWarning />
+              </div>
+              <h3 className="font-semibold text-gray-800 dark:text-gray-200 text-sm mb-1">
+                {tech.name}
+              </h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                {tech.description}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-sm text-gray-400 dark:text-gray-500">
+          本网站通过agent代理进行全自动开发<br />
+          此外网站还使用了 react-markdown、gray-matter 等技术实现各种视觉效果以及网站功能
+        </p>
+      </section>
+
+      <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-8">
+        <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2 dark:text-gray-100">
+          <svg className="w-6 h-6 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
           </svg>
           个人简介
         </h2>
@@ -67,19 +146,36 @@ export default function AboutPage() {
             <h3 className="font-medium text-gray-800 dark:text-gray-200 mb-2">基本信息</h3>
             <ul className="space-y-3 text-gray-600 dark:text-gray-400">
               <li className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 text-sm font-medium">昵称</span>
+                <span className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
                 <span>Hyakuya</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-600 text-sm font-medium">职业</span>
+                <span className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </span>
                 <span>学生</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400 text-sm font-medium">邮箱</span>
-                <span>6140285538@qq.com</span>
+                <span className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </span>
+                <span>Hyakuya@gmail.com</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 text-sm font-medium">本科</span>
+                <span className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                  </svg>
+                </span>
                 <span>软件工程</span>
               </li>
             </ul>

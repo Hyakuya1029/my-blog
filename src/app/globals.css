@@ -36,19 +36,6 @@
     @apply bg-gray-900 text-gray-100;
   }
 
-  /* ── smooth underline for links ── */
-  a.underline-anim {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0 100%;
-    background-repeat: no-repeat;
-    background-size: 0 1.5px;
-    transition: background-size 0.3s ease;
-  }
-
-  a.underline-anim:hover {
-    background-size: 100% 1.5px;
-  }
-
   /* ── global button press feedback ── */
   button:not([disabled]),
   a[class*='rounded'] {

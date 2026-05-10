@@ -60,7 +60,7 @@ export default function Home() {
       { id: 'about',         size: 220, color: CARD_COLORS.about,         render: (h: boolean) => <AboutCard isHovered={h} /> },
       { id: 'calendar',      size: 200, color: CARD_COLORS.calendar,      render: (h: boolean) => <CalendarCard isHovered={h} /> },
       { id: 'portfolio',     size: 140, color: CARD_COLORS.portfolio,     href: '/portfolio', render: (h: boolean) => <PlaceholderCard2 isHovered={h} /> },
-      { id: 'ideas',         size: 140, color: CARD_COLORS.ideas,         render: (h: boolean) => <PlaceholderCard3 isHovered={h} /> },
+      { id: 'ideas',         size: 140, color: CARD_COLORS.ideas,         href: '/messages', render: (h: boolean) => <PlaceholderCard3 isHovered={h} /> },
       { id: 'favorites',     size: 140, color: CARD_COLORS.favorites,     render: (h: boolean) => <PlaceholderCard4 isHovered={h} /> },
       { id: 'placeholder1',  size: 140, color: CARD_COLORS.placeholder1,  render: (h: boolean) => <PlaceholderCard1 isHovered={h} /> },
     ],
@@ -106,7 +106,9 @@ export default function Home() {
     return (
       <main className="min-h-screen p-4">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">我的网站</h1>
+          <div className="mb-4 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-center">
+            <span className="text-xs text-amber-600 dark:text-amber-400">💡 在电脑端访问以获得更好的交互体验</span>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             {baseCards.map((item) => {
               const content = item.render(false);
@@ -130,9 +132,6 @@ export default function Home() {
               );
             })}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-8">
-            在电脑端访问以获得更好的交互体验
-          </p>
         </div>
       </main>
     );
