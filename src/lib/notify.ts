@@ -41,13 +41,15 @@ export async function sendNotification(payload: NotifyPayload) {
     location && `位置：${location}`,
   ].filter(Boolean).join('\n');
 
-  transporter.sendMail({
-    from: qqEmail,
-    to: notifyEmail,
-    subject,
-    text: body,
-  }).then(
-    () => console.log('[notify] 邮件发送成功'),
-    (err) => console.error('[notify] 邮件发送失败:', err.message)
-  );
+  try {
+    await transporter.sendMail({
+      from: qqEmail,
+      to: notifyEmail,
+      subject,
+      text: body,
+    });
+    console.log('[notify] 邮件发送成功');
+  } catch (err: any) {
+    console.log('[notify] 邮件发送失败:', err.message);
+  }
 }

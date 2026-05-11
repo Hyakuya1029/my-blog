@@ -1,6 +1,6 @@
 export async function getGeoInfo(ip: string) {
   try {
-    const response = await fetch(`https://ip-api.com/json/${ip}?lang=zh-CN`);
+    const response = await fetch(`http://ip-api.com/json/${ip}?lang=zh-CN`);
     const data = await response.json();
 
     if (data.status === 'success') {
@@ -9,8 +9,10 @@ export async function getGeoInfo(ip: string) {
         region: data.regionName || data.city || '未知'
       };
     }
-  } catch (error) {
-    console.error('获取地理信息失败:', error);
+
+    console.error('geo ip-api 状态异常:', data.status, data.message);
+  } catch (error: any) {
+    console.error('geo ip-api 请求失败:', error.message);
   }
 
   return { country: '未知', region: '未知' };

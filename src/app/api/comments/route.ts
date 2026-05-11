@@ -31,7 +31,7 @@ export async function POST(request: Request) {
 
     if (error) throw error;
 
-    sendNotification({
+    await sendNotification({
       type: 'comment',
       name: body.name,
       content: body.content,

@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     if (error) throw error;
 
-    sendNotification({
+    await sendNotification({
       type: 'message',
       name: body.name,
       content: body.content,
