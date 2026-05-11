@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'fs';
+import { existsSync, readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import matter from 'gray-matter';
 
@@ -16,7 +16,8 @@ export interface Post {
 const postsDirectory = join(process.cwd(), 'posts');
 
 export function getAllPosts(): Post[] {
-  const fileNames = readdirSync(postsDirectory);
+  if (!existsSync(postsDirectory)) return [];
+  const fileNames = readdirSync(postsDirectory).filter((f) => f.endsWith('.md'));
   
   const allPosts = fileNames.map((fileName) => {
     const id = fileName.replace(/\.md$/, '');
@@ -42,7 +43,8 @@ export function getAllPosts(): Post[] {
 }
 
 export function getPostById(id: string): Post | undefined {
-  const fileNames = readdirSync(postsDirectory);
+  if (!existsSync(postsDirectory)) return undefined;
+  const fileNames = readdirSync(postsDirectory).filter((f) => f.endsWith('.md'));
   const fileName = `${id}.md`;
   
   if (!fileNames.includes(fileName)) {
@@ -66,6 +68,7 @@ export function getPostById(id: string): Post | undefined {
 }
 
 export function getAllPostIds(): string[] {
-  const fileNames = readdirSync(postsDirectory);
+  if (!existsSync(postsDirectory)) return [];
+  const fileNames = readdirSync(postsDirectory).filter((f) => f.endsWith('.md'));
   return fileNames.map((fileName) => fileName.replace(/\.md$/, ''));
 }
