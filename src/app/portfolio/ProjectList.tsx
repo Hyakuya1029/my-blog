@@ -29,7 +29,11 @@ export default function ProjectList({ projects, categories }: ProjectListProps) 
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
+      {projects.length === 0 ? (
+        <p className="text-gray-500 dark:text-gray-400 text-center">暂无项目</p>
+      ) : (
+        <>
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
         <FilterPill
           label="全部"
           isActive={activeCategory === null}
@@ -119,6 +123,8 @@ export default function ProjectList({ projects, categories }: ProjectListProps) 
           </div>
         ))}
       </div>
+        </>
+      )}
     </>
   );
 }

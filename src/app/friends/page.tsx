@@ -3,7 +3,7 @@ import FriendsContent from './FriendsContent';
 
 export const metadata: Metadata = {
   title: '友链',
-  description: '分享有趣网站和好友页面',
+  description: '分享其它网站和好友页面',
 };
 
 export default function FriendsPage() {

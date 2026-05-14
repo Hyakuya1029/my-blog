@@ -19,7 +19,11 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
 
   return (
     <section>
-      <div className="flex flex-wrap justify-center gap-2 mb-8">
+      {posts.length === 0 ? (
+        <p className="text-gray-500 dark:text-gray-400 text-center">暂无文章</p>
+      ) : (
+        <>
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
         <FilterPill
           label="全部"
           isActive={activeTag === null}
@@ -67,6 +71,8 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
           ))
         )}
       </div>
+        </>
+      )}
     </section>
   );
 }
