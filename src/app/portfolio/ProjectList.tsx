@@ -30,7 +30,7 @@ export default function ProjectList({ projects, categories }: ProjectListProps) 
   return (
     <>
       {projects.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400 text-center">暂无项目</p>
+        <p className="text-gray-400 dark:text-gray-500 text-center text-sm">项目正在路上</p>
       ) : (
         <>
         <div className="flex flex-wrap justify-center gap-2 mb-8">

@@ -22,11 +22,11 @@ const _example: Project[] = [
     id: 1,
     title: '电商平台',
     description: '基于 Next.js 的全栈电商平台，支持商品搜索、购物车、订单管理等功能',
-    image: '/images/projects/ecommerce.png',    // 项目封面图，放在 public/images/projects/ 下
+    image: '/images/projects/ecommerce.png',
     tags: ['Next.js', 'TypeScript', 'Prisma'],
     category: '全栈',
-    githubUrl: 'https://github.com/yourname/ecommerce',   // （可选）GitHub 仓库地址
-    demoUrl: 'https://ecommerce-demo.vercel.app',          // （可选）在线演示地址
+    githubUrl: 'https://github.com/yourname/ecommerce',
+    demoUrl: 'https://ecommerce-demo.vercel.app',
   },
   {
     id: 2,
@@ -35,7 +35,6 @@ const _example: Project[] = [
     image: '/images/projects/weather.png',
     tags: ['WeChat', 'Vue.js'],
     category: '小程序',
-    // githubUrl 和 demoUrl 都是可选的，不填则不显示对应按钮
   },
   {
     id: 3,
@@ -45,7 +44,6 @@ const _example: Project[] = [
     tags: ['React', 'Tailwind CSS', 'Storybook'],
     category: '库/工具',
     githubUrl: 'https://github.com/yourname/ui-lib',
-    // demoUrl 不填则不显示演示按钮
   },
 ];
 */

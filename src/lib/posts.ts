@@ -13,6 +13,8 @@ export interface Post {
   published: boolean;
 }
 
+const fmtDate = (v: unknown) => v instanceof Date ? v.toISOString().split('T')[0] : String(v ?? '');
+
 const postsDirectory = join(process.cwd(), 'posts');
 
 export function getAllPosts(): Post[] {
@@ -30,8 +32,8 @@ export function getAllPosts(): Post[] {
       title: data.title,
       excerpt: data.excerpt,
       content,
-      publishedAt: data.publishedAt,
-      updatedAt: data.updatedAt,
+      publishedAt: fmtDate(data.publishedAt),
+      updatedAt: fmtDate(data.updatedAt),
       tags: data.tags,
       published: data.published,
     } as Post;
@@ -60,8 +62,8 @@ export function getPostById(id: string): Post | undefined {
     title: data.title,
     excerpt: data.excerpt,
     content,
-    publishedAt: data.publishedAt,
-    updatedAt: data.updatedAt,
+    publishedAt: fmtDate(data.publishedAt),
+    updatedAt: fmtDate(data.updatedAt),
     tags: data.tags,
     published: data.published,
   } as Post;

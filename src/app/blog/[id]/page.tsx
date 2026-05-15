@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
 import { getPostById, getAllPostIds } from '@/lib/posts';
 import CommentSection from './CommentSection';
 
@@ -53,7 +54,7 @@ export default async function PostPage({ params }: PageProps) {
         </a>
       </nav>
 
-      <article className="prose prose-lg dark:prose-invert max-w-none">
+      <article>
         <header className="mb-8 not-prose">
           <h1 className="text-4xl font-bold mb-4 dark:text-gray-100">{post.title}</h1>
           <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
@@ -69,7 +70,11 @@ export default async function PostPage({ params }: PageProps) {
           <hr className="my-8 dark:border-gray-700" />
         </header>
 
-        <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{post.content}</ReactMarkdown>
+        <div className="prose prose-lg dark:prose-invert max-w-none
+          prose-code:before:content-none prose-code:after:content-none
+        ">
+          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>{post.content}</ReactMarkdown>
+        </div>
       </article>
 
       <CommentSection postId={id} />

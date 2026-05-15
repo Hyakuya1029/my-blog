@@ -24,6 +24,13 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggle } = useTheme();
+  const [spinning, setSpinning] = useState(false);
+
+  const handleToggle = () => {
+    setSpinning(true);
+    toggle();
+    setTimeout(() => setSpinning(false), 400);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -74,8 +81,9 @@ export default function Navbar() {
           {/* Theme toggle + mobile hamburger */}
           <div className="flex items-center gap-1 flex-1 justify-end">
             <button
-              onClick={toggle}
+              onClick={handleToggle}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              style={{ transform: spinning ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.4s ease' }}
               aria-label="切换主题"
             >
               {theme === 'dark' ? (

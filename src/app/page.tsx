@@ -10,6 +10,7 @@ import ClockCard from '@/components/home/ClockCard';
 import AnnouncementCard from '@/components/home/AnnouncementCard';
 import MusicCard from '@/components/home/MusicCard';
 import { useBubblePhysics } from '@/hooks/useBubblePhysics';
+import InfoSection from '@/components/home/InfoSection';
 
 type CardItem = {
   id: string;
@@ -35,7 +36,8 @@ const CARD_COLORS: Record<string, string> = {
 export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [containerDim, setContainerDim] = useState({ w: 0, h: 640 });
+  const [containerDim, setContainerDim] = useState({ w: 0, h: 800 });
+  const [scrollOpacity, setScrollOpacity] = useState(1);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // ── mobile detection ──
@@ -46,13 +48,25 @@ export default function Home() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
+  // ── scroll-based bubble opacity ──
+  useEffect(() => {
+    if (isMobile) return;
+    const handleScroll = () => {
+      const vh = window.innerHeight;
+      const op = Math.max(0, 1 - window.scrollY / (vh * 0.5));
+      setScrollOpacity(op);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isMobile]);
+
   // ── measure container ──
   useEffect(() => {
     if (isMobile || !containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
       setContainerDim({
         w: entry.contentRect.width,
-        h: 640,
+        h: entry.contentRect.height,
       });
     });
     ro.observe(containerRef.current);
@@ -146,12 +160,14 @@ export default function Home() {
   }
 
   // ════════════════════════════════════════════
-  //  Desktop bubble layout
+  //  Desktop: sticky bubble + scroll section
   // ════════════════════════════════════════════
   return (
-    <main className="min-h-screen p-10 overflow-hidden">
-      <div className="max-w-4xl mx-auto">
-        <div ref={containerRef} className="relative h-[640px] w-full">
+    <main>
+      {/* Bubble section — sticky, fills viewport */}
+      <section className="h-screen sticky top-0 overflow-hidden p-10">
+        <div className="max-w-4xl mx-auto h-full" style={{ opacity: scrollOpacity, transition: 'opacity 0.1s linear' }}>
+          <div ref={containerRef} className="relative h-full w-full">
           {/* ── SVG overlay: connections & orbiting particles ── */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
             {/* connection lines */}
@@ -237,7 +253,16 @@ export default function Home() {
             );
           })}
         </div>
-      </div>
+
+          {/* scroll hint — minimal */}
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-5 h-8 rounded-full border border-gray-300 dark:border-gray-600 flex justify-center pt-1.5">
+            <div className="w-1 h-2 rounded-full bg-gray-400 dark:bg-gray-500 animate-bounce" />
+          </div>
+        </div>
+      </section>
+
+      {/* Info cards section */}
+      <InfoSection />
     </main>
   );
 }

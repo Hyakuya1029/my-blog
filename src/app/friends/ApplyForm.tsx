@@ -88,7 +88,7 @@ export default function ApplyForm() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <h3 className="text-lg font-semibold text-center text-gray-700 dark:text-gray-300">申请友链</h3>
                 <p className="text-center text-xs text-gray-400 dark:text-gray-500 leading-relaxed">
-                  <span className="text-red-500">*</span> 为必填项（标签除外）<br />
+                  <span className="text-red-500">*</span> 为必填项<br />
                   网站链接：以「https://」开头<br />
                   网站描述：精简随意即可<br />
                   头像链接：可联系我提供帮助，留空使用默认图标<br />

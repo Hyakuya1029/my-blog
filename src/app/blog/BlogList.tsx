@@ -20,7 +20,7 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
   return (
     <section>
       {posts.length === 0 ? (
-        <p className="text-gray-500 dark:text-gray-400 text-center">暂无文章</p>
+        <p className="text-gray-400 dark:text-gray-500 text-center text-sm">第一篇会写什么？</p>
       ) : (
         <>
         <div className="flex flex-wrap justify-center gap-2 mb-8">
@@ -45,7 +45,7 @@ export default function BlogList({ posts, allTags }: BlogListProps) {
 
       <div className="space-y-4">
         {filtered.length === 0 ? (
-          <p className="text-gray-500 dark:text-gray-400 text-center">暂无文章</p>
+          <p className="text-gray-400 dark:text-gray-500 text-center text-sm">没有匹配的文章</p>
         ) : (
           filtered.map((post, i) => (
             <article

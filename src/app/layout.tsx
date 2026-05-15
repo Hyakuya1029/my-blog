@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundGlow from "@/components/layout/BackgroundGlow";
@@ -42,9 +43,10 @@ export default function RootLayout({
             <BackgroundGlow />
             <Navbar />
             <AnnouncementBar />
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 page-enter">{children}</div>
             <Footer />
             <MusicFloating />
+            <Analytics />
           </MusicProvider>
         </ThemeProvider>
       </body>

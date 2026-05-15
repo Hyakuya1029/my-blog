@@ -46,7 +46,7 @@ export default function FriendsContent() {
         <FriendList friends={friends} allTags={allTags} />
       ) : (
         <p className="text-center text-gray-400 dark:text-gray-500 text-sm">
-          暂无友链，点击下方「申请友链」或通过邮箱联系我来成为第一个吧
+          还没有友链，来成为第一个吧
         </p>
       )}
       <ApplyForm />
